@@ -1,2 +1,2 @@
 # local-edge
-Script for building Gateway-MT, the auth service, and linksharing for local development/testing.
+Script for building gateway-mt, authentication service, and linksharing for local development/testing.
