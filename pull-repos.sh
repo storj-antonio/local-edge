@@ -1,17 +1,17 @@
 #!/bin/bash
 set -ue
-set -o traperr
-IFS=$' '
+set -o pipefail
 
-CurrentRepo=""
+CurrentRepo="notset"
+
 traperr() {
-	echo "ERROR: ${BASH_SOURCE[1]} at about ${BASH_LINENO[0]} while working with ${currentRepo}."
+	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]} while working with ${CurrentRepo}."
 }
 
-CloneRepos=("storj" "gateway-mt" "tardigrade-satellite-theme")
+declare -a CloneRepos=("storj" "gateway-mt" "tardigrade-satellite-theme")
 
-for i in ${!CloneRepos[@]};
-	$CurrentRepo=$i
-do
-
+for val in "${CloneRepos[@]}"; do
+	CurrentRepo=$val
+	echo "$CurrentRepo"
+	git clone "git@github.com:storj/${CurrentRepo}.git"
 done
