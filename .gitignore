@@ -1,3 +1,4 @@
+# VIM swap files
 *.sw*
 .*.sw*
 [._]*.sw[a-p]
@@ -16,3 +17,7 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# Temp directories
+**/storj
+**/gateway-mt
+**/tardigrade-satellite-theme

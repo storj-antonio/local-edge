@@ -32,11 +32,13 @@ for val in "${CloneRepos[@]}"; do
 	cd "${CurrentRepo}"
 
 	echo "Installing ${CurrentRepo}..."
-	if [[ -d "${CurrentRepo}/cmd/" ]]; then
-		cd "cmd/"
+	if [[ -d "${Location}/${CurrentRepo}/cmd/" ]]; then
+		echo "${CurrentRepo} has cmd directory"
+		cd "${Location}/${CurrentRepo}/"
 		go install -v ./cmd/...
 		cd "${Location}"
 	else
+		echo "${CurrentRepo} has cmd directory"
 		cd "${Location}"
 		# Tardigrade Branding
 		cp -r ./tardigrade-satellite-theme/europe-west-1/* ./storj/web/satellite/
@@ -50,3 +52,4 @@ for val in "${CloneRepos[@]}"; do
 		mv release/*/wasm/* web/satellite/static/wasm/
 	fi
 done
+
