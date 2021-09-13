@@ -18,7 +18,7 @@ declare -a CloneRepos=("storj" "gateway-mt" "tardigrade-satellite-theme")
 for val in "${CloneRepos[@]}"; do
 	CurrentRepo=$val
 
-	if [[ -d "./${CurrentRepo}" ]]; then
+	if [[ -d "${location}/${CurrentRepo}" ]]; then
 		echo "${CurrentRepo} folder already exists, skipping checkout."
 	else
 		if [[ "${Source}" == "Github" ]]; then
@@ -41,4 +41,3 @@ for val in "${CloneRepos[@]}"; do
 		# cp -r "${Location}/tardigrade-satellite-theme/europe-west-1/*" "${Location}/storj/web/satellite/"
 	fi
 done
-
