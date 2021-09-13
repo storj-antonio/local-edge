@@ -5,6 +5,8 @@ set -o errtrace
 
 Source=${1:-Github}
 CurrentRepo="notset"
+Location="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
+echo "${Location}"
 
 traperr() {
 	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]} while working with ${CurrentRepo}."
@@ -32,9 +34,19 @@ for val in "${CloneRepos[@]}"; do
 	echo "Installing ${CurrentRepo}..."
 	if [[ -d "${CurrentRepo}/cmd/" ]]; then
 		cd "cmd/"
-		go install -v ./cmd/... 
-		cd ../..
+		go install -v ./cmd/...
+		cd "${Location}"
 	else
-		cd ..
+		cd "${Location}"
+		# Tardigrade Branding
+		cp -r ./tardigrade-satellite-theme/europe-west-1/* ./storj/web/satellite/
+		cd ./storj/web/satellite/
+		npm install
+		npm run build
+
+		# Generate WASM
+		cd "${Location}/storj/"
+		make satellite-wasm
+		mv release/*/wasm/* web/satellite/static/wasm/
 	fi
 done
