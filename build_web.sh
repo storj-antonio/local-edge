@@ -11,14 +11,17 @@ traperr() {
 }
 trap traperr ERR
 
+echo "Building satellite web ui"
 cd "${Location}/storj/web/satellite/"
 npm install
 npm run build
 
+echo "Building storagenode web ui"
 cd "${location}/storj/web/storagenode/"
 npm install
 npm run build
 
+echo "Building WASM"
 # Generate WASM
 cd "${Location}/storj/"
 make satellite-wasm
