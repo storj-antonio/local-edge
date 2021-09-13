@@ -6,7 +6,7 @@ set -o errtrace
 Source=${1:-Github}
 CurrentRepo="notset"
 Location="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
-echo "${Location}"
+export GOBIN=~/go/bin
 
 traperr() {
 	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]} while working with ${CurrentRepo}."
@@ -22,34 +22,23 @@ for val in "${CloneRepos[@]}"; do
 		echo "${CurrentRepo} folder already exists, skipping checkout."
 	else
 		if [[ "${Source}" == "Github" ]]; then
+			echo "Cloning from github..."
 			git clone "git@github.com:storj/${CurrentRepo}.git"
 		else
+			echo "Cloning using gerrit support scripts"
 			curl -sSL storj.io/clone | sh -s "${CurrentRepo}"
 		fi
 	fi
-
-	echo "Changing directory to ${CurrentRepo}."
-	cd "${CurrentRepo}"
 
 	echo "Installing ${CurrentRepo}..."
 	if [[ -d "${Location}/${CurrentRepo}/cmd/" ]]; then
 		echo "${CurrentRepo} has cmd directory"
 		cd "${Location}/${CurrentRepo}/"
 		go install -v ./cmd/...
-		cd "${Location}"
 	else
-		echo "${CurrentRepo} has cmd directory"
-		cd "${Location}"
+		echo "${CurrentRepo} doesn't contain a cmd directory." 
 		# Tardigrade Branding
-		cp -r ./tardigrade-satellite-theme/europe-west-1/* ./storj/web/satellite/
-		cd ./storj/web/satellite/
-		npm install
-		npm run build
-
-		# Generate WASM
-		cd "${Location}/storj/"
-		make satellite-wasm
-		mv release/*/wasm/* web/satellite/static/wasm/
+		# cp -r "${Location}/tardigrade-satellite-theme/europe-west-1/*" "${Location}/storj/web/satellite/"
 	fi
 done
 
