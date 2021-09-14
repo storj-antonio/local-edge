@@ -1,11 +1,11 @@
 #!/bin/bash
-set -ue
+set -u
 set -o pipefail
-set -o errtrace
 
-Source=${1:-Github}
+Source="${1:-Github}"
 CurrentRepo="notset"
 Location="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
+echo "Cloning repos in: ${Location}."
 export GOBIN=~/go/bin
 
 traperr() {
@@ -18,7 +18,7 @@ declare -a CloneRepos=("storj" "gateway-mt" "tardigrade-satellite-theme")
 for val in "${CloneRepos[@]}"; do
 	CurrentRepo=$val
 
-	if [[ -d "${location}/${CurrentRepo}" ]]; then
+	if [[ -d "${Location}/${CurrentRepo}" ]]; then
 		echo "${CurrentRepo} folder already exists, skipping checkout."
 	else
 		if [[ "${Source}" == "Github" ]]; then
@@ -36,7 +36,7 @@ for val in "${CloneRepos[@]}"; do
 		cd "${Location}/${CurrentRepo}/"
 		go install -v ./cmd/...
 	else
-		echo "${CurrentRepo} doesn't contain a cmd directory." 
+		echo "${CurrentRepo} doesn't contain a cmd directory."
 		# Tardigrade Branding
 		# cp -r "${Location}/tardigrade-satellite-theme/europe-west-1/*" "${Location}/storj/web/satellite/"
 	fi

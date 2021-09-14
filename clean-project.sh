@@ -1,7 +1,6 @@
 #!/bin/bash
 set -ue
 set -o pipefail
-set -o errtrace
 
 CurrentFolder="notset"
 
