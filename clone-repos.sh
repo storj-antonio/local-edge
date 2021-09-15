@@ -80,7 +80,7 @@ for val in "${CloneRepos[@]}"; do
 	if [[ -d "${ProjectRoot}/${CurrentRepo}/cmd/" ]]; then
 		echo "${CurrentRepo} has cmd directory"
 		cd "${ProjectRoot}/${CurrentRepo}/"
-		go install -v ./cmd/...
+		go install -v ./...
 	else
 		echo "${CurrentRepo} doesn't contain a cmd directory."
 		# Tardigrade Branding

@@ -4,6 +4,8 @@ set -o pipefail
 set -o errtrace
 
 traperr() {
+	kill $cockroach_pid
+	kill '$storj-sim_pid'
 	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]} while working with ${CurrentFolder}."
 }
 trap traperr err
@@ -12,7 +14,8 @@ export PATH=$PATH:$HOME/go/bin
 
 if which cockroach >/dev/null; then
 	echo "starting cockroach"
-	cockroach start-single-node --insecure --listen-addr=localhost
+	cockroach start-single-node --insecure --listen-addr=localhost &
+	cockroach_pid=$!
 else
     echo "cockroach not installed or isn't in path. Attempting scripted install, this could fail especially if"
 	echo "your user isn't in the sudoers file."
@@ -22,7 +25,8 @@ else
 
 	if which cockroach >/dev/null; then
 		echo "Cockroach installed successfully, starting single-node instance"
-		cockroach start-single-node --insecure --listen-addr=localhost
+		cockroach start-single-node --insecure --listen-addr=localhost &
+		cockroach_pid=$!
 	fi
 fi
 
@@ -30,7 +34,8 @@ if which storj-sim >/dev/null; then
 	echo "starting storj-sim"
 	storj-sim network destroy
 	storj-sim network setup --postgres=cockroach://root@localhost:26257?sslmode=disable
-	storj-sim network run --no-gateways
+	storj-sim network run --no-gateways &
+	storj-sim_pid=$!
 else
     echo "storj-sim not installed or isn't in path. Try running clone-repos.sh."
 fi
