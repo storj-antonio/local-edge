@@ -64,6 +64,10 @@ for val in "${CloneRepos[@]}"; do
 			echo "Cloning ${CurrentRepo} using gerrit support scripts"
 			curl -sSL storj.io/clone | sh -s "${CurrentRepo}"
 		fi
+		# check the Current Repo, if we are cloning gateway-mt then checkout tag1.8.0
+		if [[ ${CurrentRepo} == "gateway-mt" ]]; then
+			git checkout tags/v1.8.0
+		fi
 	fi
 
 	echo "Clean the environment: ${Clean}"

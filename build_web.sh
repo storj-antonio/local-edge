@@ -17,7 +17,7 @@ npm install
 npm run build
 
 echo "Building storagenode web ui"
-cd "${location}/storj/web/storagenode/"
+cd "${Location}/storj/web/storagenode/"
 npm install
 npm run build
 
