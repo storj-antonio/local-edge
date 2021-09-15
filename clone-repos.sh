@@ -2,27 +2,26 @@
 set -u
 set -o pipefail
 
-trap Traperr 1 2 3 6
+trap traperr err
 
 export GOBIN=~/go/bin
 Environment=Test
 Clean=False
 Source="${1:-Github}"
 CurrentRepo="notset"
-ProjectRoot="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
+ProjectRoot="$( cd "$( dirname "${BASH_SOURCE[0]}"   )" >/dev/null 2>&1 && pwd   )"
 CloneRepos=("storj" "gateway-mt" "tardigrade-satellite-theme")
 
-while getopts "he:c" arg; do
+while getopts "hec" arg; do
 	case $arg in
 		h)
-			Help 
+			Help
 			;;
 		e)
-			Environment=${OPTARG}
-			echo $Environment
+			Source="gerrit"
 			;;
 		c)
-			Clean=True
+			Clean="True"
 			;;
 	esac
 done
@@ -44,7 +43,7 @@ Usage()
 	echo "usage: ${0}"
 }
 
-Traperr() {
+traperr() {
 	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]} while working with ${CurrentRepo}."
 }
 
@@ -62,7 +61,7 @@ for val in "${CloneRepos[@]}"; do
 			echo "Cloning from github..."
 			git clone "git@github.com:storj/${CurrentRepo}.git"
 		else
-			echo "Cloning using gerrit support scripts"
+			echo "Cloning ${CurrentRepo} using gerrit support scripts"
 			curl -sSL storj.io/clone | sh -s "${CurrentRepo}"
 		fi
 	fi

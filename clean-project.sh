@@ -2,14 +2,24 @@
 set -ue
 set -o pipefail
 
+trap traperr err
+
 CurrentFolder="notset"
+Folders=("gateway-mt" "tardigrade-satellite-theme")
+
+while getopts "a" arg; do
+	case $arg in
+		a)
+			echo "Deleting all folders"
+			Folders=("${Folders}" "storj")
+			;;
+	esac
+done
+
 
 traperr() {
 	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]} while working with ${CurrentFolder}."
 }
-trap traperr ERR
-
-declare -a Folders=("storj" "gateway-mt" "tardigrade-satellite-theme")
 
 for val in "${Folders[@]}"; do
 	CurrentFolder=$val
