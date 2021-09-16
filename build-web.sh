@@ -7,7 +7,7 @@ Location="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd  )"
 echo "This script is running from: ${Location}."
 
 traperr() {
-	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]} while working with ${CurrentFolder}."
+	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]}."
 }
 trap traperr err
 
@@ -23,6 +23,6 @@ npm run build
 
 echo "Building WASM"
 # Generate WASM
-cd "${Location}/storj/"
-make satellite-wasm
-mv release/*/wasm/* web/satellite/static/wasm/
+cd "${Location}/storj/satellite/console/wasm/"
+GOOS=js GOARCH=wasm go build -o access.wasm storj.io/storj/satellite/console/wasm
+cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .

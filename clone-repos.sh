@@ -7,10 +7,10 @@ trap traperr err
 export GOBIN=~/go/bin
 Environment=Test
 Clean=False
-Source="${1:-Github}"
+Source="Github"
 CurrentRepo="notset"
 ProjectRoot="$( cd "$( dirname "${BASH_SOURCE[0]}"   )" >/dev/null 2>&1 && pwd   )"
-CloneRepos=("storj" "gateway-mt" "tardigrade-satellite-theme")
+CloneRepos=("storj" "gateway-mt" "tardigrade-satellite-theme" "gateway-st")
 
 while getopts "hec" arg; do
 	case $arg in
@@ -65,7 +65,8 @@ for val in "${CloneRepos[@]}"; do
 			curl -sSL storj.io/clone | sh -s "${CurrentRepo}"
 		fi
 		# check the Current Repo, if we are cloning gateway-mt then checkout tag1.8.0
-		if [[ ${CurrentRepo} == "gateway-mt" ]]; then
+		if [[ "${CurrentRepo}" == "gateway-mt" ]]; then
+			cd "${CurrentRepo}"
 			git checkout tags/v1.8.0
 		fi
 	fi
@@ -80,6 +81,9 @@ for val in "${CloneRepos[@]}"; do
 	if [[ -d "${ProjectRoot}/${CurrentRepo}/cmd/" ]]; then
 		echo "${CurrentRepo} has cmd directory"
 		cd "${ProjectRoot}/${CurrentRepo}/"
+		go install -v ./...
+	elif [[ "${CurrentRepo}" == "gateway-st" ]]; then
+		cd "${ProjectRoot}/${CurrentRepo}"
 		go install -v ./...
 	else
 		echo "${CurrentRepo} doesn't contain a cmd directory."

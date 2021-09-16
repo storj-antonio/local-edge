@@ -5,13 +5,13 @@ set -o pipefail
 trap traperr err
 
 CurrentFolder="notset"
-Folders=("gateway-mt" "tardigrade-satellite-theme")
+Folders=("gateway-mt" "tardigrade-satellite-theme" "gateway-st")
 
 while getopts "a" arg; do
 	case $arg in
 		a)
 			echo "Deleting all folders"
-			Folders=("${Folders}" "storj")
+			Folders+=("${Folders}" "storj")
 			;;
 	esac
 done

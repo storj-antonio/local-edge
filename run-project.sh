@@ -7,7 +7,7 @@ traperr() {
 	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]}."
 }
 
-# This works with basic top down approach, and also literally from the top down.
+# This works with a basic top down approach, and also literally from the top down.
 # If we catch the clean optional arguement we will clean and then fall directly
 # into a clone. This script is to be used and abused at your will. Need things
 # things I didn't include, well slam them in here and rename it to myReallyCoolMod.sh
@@ -24,3 +24,5 @@ while getopts "c" arg; do
 done
 
 source ./clone-repos.sh
+source ./build-web.sh
+source ./start-services.sh
