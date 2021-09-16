@@ -28,3 +28,8 @@ for val in "${Folders[@]}"; do
 		rm -rf $CurrentFolder
 	fi
 done
+
+if [[ -d ./cockroach-data ]]; then
+	echo "Deleting cockroach-data"
+	rm -rf cockroach-data
+fi
