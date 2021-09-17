@@ -26,3 +26,5 @@ echo "Building WASM"
 cd "${Location}/storj/satellite/console/wasm/"
 GOOS=js GOARCH=wasm go build -o access.wasm storj.io/storj/satellite/console/wasm
 cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
+echo "wasm built"
+cd "${Location}"
