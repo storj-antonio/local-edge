@@ -5,6 +5,7 @@ set -o pipefail
 trap traperr err
 traperr() {
 	echo "ERROR: ${BASH_SOURCE[1]} near line ${BASH_LINENO[0]}."
+	'pkill -P $$' 
 }
 
 # This works with a basic top down approach, and also literally from the top down.
@@ -23,6 +24,8 @@ while getopts "c" arg; do
 	esac
 done
 
-source ./clone-repos.sh
-source ./build-web.sh
-source ./start-services.sh
+source ./clone-repos.sh&&
+source ./build-web.sh&&
+source ./start-services.sh&&
+source ./run-ui.sh
+
