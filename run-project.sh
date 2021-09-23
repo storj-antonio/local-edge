@@ -24,6 +24,6 @@ while getopts "c" arg; do
 done
 
 source ./clone-repos.sh&&
-source ./start-services.sh&&
 source ./build-web.sh&&
+source ./start-services.sh&&
 source ./run-ui.sh
