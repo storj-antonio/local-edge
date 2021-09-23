@@ -34,6 +34,6 @@ echo "Enable generation of S3 Credentials in Satellite UI"
 echo "console.gateway-credentials-request-url: "http://127.0.0.1:8000"" >> ~/.local/share/storj/local-network/satellite/0/config.yaml
 echo "console.file-browser-flow-disabled: false" >> ~/.local/share/storj/local-network/satellite/0/config.yaml
 
-# Enable Linksharing in Satellite UI 
+# Enable Linksharing in Satellite UI
 echo "Enable Linksharing in Satellite UI"
 echo "console.linksharing-url: "http://127.0.0.1:8001"" >> ~/.local/share/storj/local-network/satellite/0/config.yaml
