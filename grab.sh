@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set -euo pipefail
 
@@ -13,7 +13,7 @@ go install -race -v storj.io/storj/cmd/identity@latest &
 go install -race -v storj.io/storj/cmd/certificates@latest &
 go install -race -v storj.io/storj/cmd/multinode@latest &
 go install -race -v storj.io/gateway@latest &
-
+go install -race -v storj.io/gateway-mt@latest &
 
 
 for job in `jobs -p`
